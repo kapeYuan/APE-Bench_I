@@ -1,5 +1,3 @@
-# Copyright (2025) Bytedance Ltd. and/or its affiliates.
-
 # API keys and endpoints for different language models
 # Fill in your actual API keys in this file
 
@@ -19,5 +17,3 @@ volces_base_url = "https://api.deepseek.com"  # Or other endpoint
 # Google API credentials
 google_api_key = "your-google-api-key"
 google_base_url = "https://generativelanguage.googleapis.com"  # Or other specific Google AI service endpoint
-
-# Add additional API credentials as needed for other models

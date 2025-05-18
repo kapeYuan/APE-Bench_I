@@ -70,6 +70,12 @@ def create_client(model_name: str):
             api_version="2024-03-01-preview",
             api_key=aws_claude_api_key,
         )
+    elif 'gemini' in model_name:
+        return openai.AzureOpenAI(
+            azure_endpoint=google_base_url,
+            api_version="2024-03-01-preview",
+            api_key=google_api_key,
+        )
     else:
         return openai.AzureOpenAI(
             azure_endpoint=openai_base_url,
@@ -230,8 +236,8 @@ if __name__ == "__main__":
     system_prompt = None
     prompt = "What is the capital of France?"
     # model_name = "deepseek-r1-250120"
-    # model_name = "gemini-2.5-pro-preview-03-25"
-    model_name = "o3-mini"
+    model_name = "gemini-2.5-pro-preview-03-25"
+    # model_name = "o3-mini"
 
     # Using automatically generated logid
     result = chat(

@@ -112,11 +112,18 @@ Eleanstic is crucial for syntactic verification. It requires a one-time setup pr
 
 ## 5. API Keys (for running LLM inference)
 
-If you plan to run inference with LLMs (OpenAI, Anthropic, Google models), you must set up your API keys. Configure these by editing the file `src/apebench/inference/utils/api_keys.py`.
+If you plan to run inference with LLMs (OpenAI, Anthropic, Google models), you must set up your API keys. The repository includes an example file `src/apebench/inference/utils/api_keys.example.py` with the structure needed.
 
-This file contains placeholders for various API providers. Replace the placeholder strings with your actual API keys.
+**Steps to configure API keys:**
 
-Example structure within `src/apebench/inference/utils/api_keys.py`:
+1. Copy the example file to create your own API keys file:
+   ```bash
+   cp src/apebench/inference/utils/api_keys.example.py src/apebench/inference/utils/api_keys.py
+   ```
+
+2. Edit `api_keys.py` with your actual API keys. The file is already in `.gitignore` to prevent accidental commits of sensitive information.
+
+Example structure within `api_keys.py`:
 ```python
 # OpenAI API credentials (GPT models)
 openai_api_key = "your-openai-api-key" # Replace with your actual key
@@ -260,11 +267,18 @@ Eleanstic 对于语法验证至关重要。它需要一次性设置过程来下�
 
 ## 5. API 密钥 (用于运行 LLM 推理)
 
-如果您计划使用 LLM（OpenAI、Anthropic、Google 模型）进行推理，您必须设置 API 密钥。通过编辑文件 `src/apebench/inference/utils/api_keys.py` 配置这些密钥。
+如果您计划使用 LLM（OpenAI、Anthropic、Google 模型）进行推理，您必须设置 API 密钥。代码仓库包含一个示例文件 `src/apebench/inference/utils/api_keys.example.py`，其中包含所需的结构。
 
-该文件包含各种 API 提供商的占位符。将占位符字符串替换为您的实际 API 密钥。
+**配置 API 密钥的步骤：**
 
-`src/apebench/inference/utils/api_keys.py` 中的示例结构：
+1. 复制示例文件以创建您自己的 API 密钥文件：
+   ```bash
+   cp src/apebench/inference/utils/api_keys.example.py src/apebench/inference/utils/api_keys.py
+   ```
+
+2. 使用您的实际 API 密钥编辑 `api_keys.py`。该文件已添加到 `.gitignore` 中，以防止意外提交敏感信息。
+
+`api_keys.py` 中的示例结构：
 ```python
 # OpenAI API 凭据 (GPT 模型)
 openai_api_key = "your-openai-api-key" # 替换为您的实际密钥
