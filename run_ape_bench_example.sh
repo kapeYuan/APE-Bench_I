@@ -25,6 +25,26 @@ CONFIG_FILE="configs/config.yaml"
 # Ensure its 'paths.mathlib_repo' points to MATHLIB_REPO_PATH.
 ELEANSTIC_CONFIG_FILE="src/eleanstic/config.yaml"
 
+# --- Check for required commands ---
+echo "Checking for required dependencies..."
+
+# Check for lean command
+if ! command -v lean &> /dev/null; then
+    echo "Error: 'lean' command not found. Please install Lean 4 before running this script."
+    echo "Visit https://lean-lang.org/lean4/doc/quickstart.html for installation instructions."
+    exit 1
+fi
+
+# Check for elan command
+if ! command -v elan &> /dev/null; then
+    echo "Error: 'elan' command not found. Please install Elan (Lean version manager) before running this script."
+    echo "Visit https://github.com/leanprover/elan for installation instructions."
+    exit 1
+fi
+
+echo "All required dependencies are installed."
+echo "---------------------------------------------------------------------"
+
 # --- 1. Setup: Clone repositories (if not already present) ---
 echo "Step 1: Setting up repositories..."
 
