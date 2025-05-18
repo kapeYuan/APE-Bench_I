@@ -153,7 +153,7 @@ def evaluate_patches(config_file: str, merged_results_file: Optional[str] = None
         judgement_cmd.append(str(config.judgement.thinking_budget_tokens))
     
     print(f"Executing: {' '.join(judgement_cmd)}")
-    # subprocess.run(judgement_cmd, check=True)
+    subprocess.run(judgement_cmd, check=True)
     
     # 3. Collect and filter judgment results
     print("Filtering judgement results...")

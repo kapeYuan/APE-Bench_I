@@ -335,33 +335,3 @@ def plot_combined_metrics(verification_metrics: Dict, judgement_metrics: Dict, o
     # Save image
     plt.savefig(os.path.join(output_dir, f'combined_metrics_{timestamp}.pdf'), dpi=300, bbox_inches='tight')
     plt.close()
-
-if __name__ == "__main__":
-    from ..config.config_manager import ConfigManager
-    from ..utils import ProgressTracker
-    # Load configuration
-    config_file = './configs/combined_config.yaml'
-    config = ConfigManager(config_file).get_config()
-    
-    progress_tracker = ProgressTracker(config.progress_log)
-
-    timestamp = '20250406_223837'
-    timestamp = 'combined'
-    # merged_results_file = f'./outputs/merged_results_{timestamp}.jsonl'
-    # verified_results = extract_verification_data(merged_results_file)
-    # metrics = calculate_metrics(verified_results, config)
-    plots_dir = getattr(config.evaluation, 'plots_dir', './verification_plots')
-    os.makedirs(plots_dir, exist_ok=True)
-    verification_status = progress_tracker.get_verification_status()
-    verification_metrics = verification_status.get("metrics", {})
-    plot_metrics(verification_metrics, plots_dir, f'verification_combined_{timestamp}')
-
-    # filtered_judgement_file = f'./outputs/filtered_judgement_{timestamp}.jsonl'
-    # judgement_data = extract_judgement_data(filtered_judgement_file)
-    # metrics = calculate_metrics(judgement_data, config)
-    judgement_status = progress_tracker.get_evaluation_status()
-    judgement_metrics = judgement_status.get("metrics", {})
-    plot_metrics(judgement_metrics, plots_dir, f'judgement_combined_{timestamp}')
-    
-    # Call new function to create combined chart
-    plot_combined_metrics(verification_metrics, judgement_metrics, plots_dir, timestamp)

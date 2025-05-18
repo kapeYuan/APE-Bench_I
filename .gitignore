@@ -17,4 +17,6 @@ old_*/
 verify_database/
 plots/
 progress
-outputs
+outputs/
+src/apebench/data_visualization
+src/apebench/inference/utils/api_keys.py
