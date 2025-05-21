@@ -18,6 +18,7 @@ from git import Repo, Commit, Diff, Blob
 import tempfile
 import subprocess
 from datetime import datetime
+from src.utils.lean_utils import remove_lean_comments
 
 class ChangeType(enum.Enum):
     """Enumeration of file change types"""
@@ -683,8 +684,8 @@ def remove_non_coding_content(content: Optional[str]) -> Optional[str]:
     if content is None:
         return None
     
-    non_coding_content_regex = re.compile(r'--.*?(\n|$)|/-.*?-/|#align.*?(\n|$)|set_option.*?(\n|$)|import.*?(\n|$)|open.*?(\n|$)|^\s*$\n', re.DOTALL)
-    return non_coding_content_regex.sub('', content)
+    non_coding_content_regex = re.compile(r'#align.*?(\n|$)|set_option.*?(\n|$)|import.*?(\n|$)|open.*?(\n|$)|^\s*$\n', re.DOTALL)
+    return remove_lean_comments(non_coding_content_regex.sub('', content))
 
 
 def calculate_diff_stats(diff_text: str) -> Tuple[int, int, int, int, int]:

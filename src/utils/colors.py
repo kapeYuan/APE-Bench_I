@@ -13,19 +13,19 @@ colors = dict(red_colors = [
 ],
 green_colors = [
     # "#99B19C", # light green
-    "#A9B388", # light grass green
+    # "#A9B388", # light grass green
     # "#3F4F44", # green
     "#5F6F52", # grass green
     "#2C3930", # dark green
 ],
 yellow_colors = [
     "#DDA853", # earth yellow
-    "#ECE5C7", # very light brown
-    "#CDC2AE", # light brown
+    # "#ECE5C7", # very light brown
+    # "#CDC2AE", # light brown
     "#A27B5C", # brown
 ],
 blue_colors = [
-    "#C2DEDC", # light blue
+    # "#C2DEDC", # light blue
     "#116A7B", # lake blue
     "#27548A", # blue
     "#123458", # dark blue
