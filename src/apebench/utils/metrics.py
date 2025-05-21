@@ -15,6 +15,7 @@ from glob import glob
 from ...utils import *
 from ..inference.utils import UNSUPPORT_TEMPERATURE_MODELS
 from ...utils.colors import ColorPicker
+from src.apebench.inference.utils.call_api import FORMAL_NAMES
 
 def pass_at_k(n: int, c: int, k: int) -> float:
     """
@@ -240,7 +241,7 @@ def plot_combined_metrics(verification_metrics: Dict, judgement_metrics: Dict, o
         for model in metrics:
             for key in metrics[model]:
                 temperature, _ = key.split(',')
-                label = f'{model}(T={temperature})' if model not in UNSUPPORT_TEMPERATURE_MODELS else f'{model}'
+                label = f'{FORMAL_NAMES[model]}(T={temperature})' if model not in UNSUPPORT_TEMPERATURE_MODELS else f'{FORMAL_NAMES[model]}'
                 all_models.add(label)
     
     # Assign colors to all models first
@@ -287,7 +288,7 @@ def plot_combined_metrics(verification_metrics: Dict, judgement_metrics: Dict, o
                 k_list = [x[0] for x in k_rates]
                 pass_list = [x[1] for x in k_rates]
                 
-                label = f'{model}(T={temperature})' if model not in UNSUPPORT_TEMPERATURE_MODELS else f'{model}'
+                label = f'{FORMAL_NAMES[model]}(T={temperature})' if model not in UNSUPPORT_TEMPERATURE_MODELS else f'{FORMAL_NAMES[model]}'
                 color = model_colors[label]
                 
                 if len(k_rates) == 1:
@@ -334,4 +335,5 @@ def plot_combined_metrics(verification_metrics: Dict, judgement_metrics: Dict, o
     
     # Save image
     plt.savefig(os.path.join(output_dir, f'combined_metrics_{timestamp}.pdf'), dpi=300, bbox_inches='tight')
+    print(f'Saved combined metrics to {os.path.join(output_dir, f"combined_metrics_{timestamp}.pdf")}')
     plt.close()

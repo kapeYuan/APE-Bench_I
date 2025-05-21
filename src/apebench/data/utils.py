@@ -1,6 +1,6 @@
 # Copyright (2025) Bytedance Ltd. and/or its affiliates.
 from multiprocessing import Pool, cpu_count
-import Levenshtein
+from rapidfuzz.distance import Levenshtein as RFLevenshtein
 import pandas as pd
 import matplotlib.pyplot as plt
 import tiktoken
@@ -104,8 +104,7 @@ def analyze_modifications(str1, str2, scattered_threshold=1):
     - block_count: Number of consecutive multi-character edits
     - total_operations: Total number of edit operations
     """
-    # Get detailed edit operations
-    edit_ops = Levenshtein.editops(str1, str2)
+    edit_ops = RFLevenshtein.editops(str1, str2)
     total_operations = len(edit_ops)
     
     if not edit_ops:
@@ -291,4 +290,3 @@ def parallel_process(items, process_func, process_args=None, max_cpus=16, show_p
         combined_results.update(result)
     
     return combined_results
-

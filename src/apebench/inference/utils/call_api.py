@@ -32,6 +32,7 @@ FORMAL_NAMES = {
     'deepseek-v3': 'DeepSeek V3',
     'doubao-1-5-pro-32k-250115': 'Doubao 1.5 Pro',
     'gpt-4.5-preview-2025-02-27': 'GPT-4.5',
+    'gemini-2.5-pro-preview-03-25': 'Gemini 2.5 Pro Preview',
 }
 
 REASONING_MODELS = (
