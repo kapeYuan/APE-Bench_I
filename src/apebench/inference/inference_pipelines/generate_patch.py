@@ -5,6 +5,7 @@ from ..utils.diff_repair import DiffRepair, apply_diff, generate_diff
 from ..utils.call_api import REASONING_MODELS
 import re
 import logging
+from src.utils.lean_utils import remove_lean_comments
 
 class GeneratePatchPipeline(BasePipeline):
     """
@@ -54,9 +55,8 @@ class GeneratePatchPipeline(BasePipeline):
             best_gen_patch = None
             best_gen_patch_comment_free = None
             best_gen_content = None
-            comment_removal_regex = re.compile(r'--.*?(?:<=\n|$)|\/-.*?-\/')
             content_before = row['content_before']
-            content_before_comment_free = comment_removal_regex.sub('', content_before)
+            content_before_comment_free = remove_lean_comments(content_before)
             if patch_match:
                 patch = patch_match.group(1).strip()
                 result['gen_patch'] = patch
@@ -65,7 +65,7 @@ class GeneratePatchPipeline(BasePipeline):
                         result['gen_content_from_scratch'] = apply_diff(content_before, patch)
                         best_gen_patch = patch
                         best_gen_content = result['gen_content_from_scratch']
-                        content_after_comment_free = comment_removal_regex.sub('', result['gen_content_from_scratch'])
+                        content_after_comment_free = remove_lean_comments(result['gen_content_from_scratch'])
                         best_gen_patch_comment_free = generate_diff(content_before_comment_free, content_after_comment_free)
                     except Exception as e:
                         pass
@@ -81,7 +81,7 @@ class GeneratePatchPipeline(BasePipeline):
                             result[f'gen_patch_after_robust_repair'] = actual_diff
                             best_gen_patch = actual_diff
                             best_gen_content = full_new_content
-                            content_after_comment_free = comment_removal_regex.sub('', full_new_content)
+                            content_after_comment_free = remove_lean_comments(full_new_content)
                             best_gen_patch_comment_free = generate_diff(content_before_comment_free, content_after_comment_free)
                         elif repaired_patch_text is not None:
                             # Standard case: DiffRepair returned a repaired patch text
@@ -93,7 +93,7 @@ class GeneratePatchPipeline(BasePipeline):
                             
                             best_gen_patch = actual_diff
                             best_gen_content = repaired_content
-                            content_after_comment_free = comment_removal_regex.sub('', repaired_content)
+                            content_after_comment_free = remove_lean_comments(repaired_content)
                             best_gen_patch_comment_free = generate_diff(content_before_comment_free, content_after_comment_free)
                         # else: an error occurred in repair, or it returned (None, None) - fields will remain None
                     except Exception as e:

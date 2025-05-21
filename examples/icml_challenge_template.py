@@ -15,6 +15,8 @@ from tenacity import retry, stop_after_attempt, wait_exponential, wait_random, w
 
 # Import diff_repair from the APE-Bench project
 from src.apebench.inference.utils.diff_repair import DiffRepair, apply_diff, generate_diff
+from src.utils.lean_utils import remove_lean_comments
+
 
 class Submission:
     """APE-Bench submission for patch generation"""
@@ -25,9 +27,6 @@ class Submission:
         self.model_name = "deepseek-v3-250324"
         self.api_base_url = "https://api.deepseek.com"
         self.api_key = os.environ.get("DEEPSEEK_API_KEY", "your-api-key-here")
-        
-        # Comment removal regex for generating comment-free versions
-        self.comment_removal_regex = re.compile(r'--.*?(?:<=\n|$)|\/-.*?-\/')
         
         # Prompt templates
         self.system_prompt = """You are given a set of **Task Descriptions**, each specifying modifications to an existing Lean 4 codebase (which may be optional or only partially provided). Your goal is to generate a **unified diff patch** that implements **only** the specified changes in **Lean 4 syntax**, ensuring strict adherence to Lean 4 conventions.
@@ -259,14 +258,14 @@ Please generate a unified diff patch that creates this file with all specified r
             }
             
             # Create comment-free version of content_before
-            content_before_comment_free = self.comment_removal_regex.sub('', content_before) if content_before else ''
+            content_before_comment_free = remove_lean_comments(content_before) if content_before else ''
             
             if diff_text:
                 if not content_before:
                     try:
                         result["gen_content_from_scratch"] = apply_diff("", diff_text)
                         # Generate comment-free version
-                        content_after_comment_free = self.comment_removal_regex.sub('', result["gen_content_from_scratch"])
+                        content_after_comment_free = remove_lean_comments(result["gen_content_from_scratch"])
                         result["best_gen_patch_comment_free"] = generate_diff(content_before_comment_free, content_after_comment_free)
                     except Exception as e:
                         self.logger.error(f"Error applying diff for new file: {str(e)}")
@@ -279,7 +278,7 @@ Please generate a unified diff patch that creates this file with all specified r
                         result["gen_patch_after_repair"] = repaired_diff
                         
                         # Generate comment-free version
-                        content_after_comment_free = self.comment_removal_regex.sub('', full_new_content)
+                        content_after_comment_free = remove_lean_comments(full_new_content)
                         result["best_gen_patch_comment_free"] = generate_diff(content_before_comment_free, content_after_comment_free)
                     elif repaired_patch is not None:
                         try:
@@ -289,7 +288,7 @@ Please generate a unified diff patch that creates this file with all specified r
                             result["gen_patch_after_repair"] = actual_diff
                             
                             # Generate comment-free version
-                            content_after_comment_free = self.comment_removal_regex.sub('', repaired_content)
+                            content_after_comment_free = remove_lean_comments(repaired_content)
                             result["best_gen_patch_comment_free"] = generate_diff(content_before_comment_free, content_after_comment_free)
                         except Exception as e:
                             self.logger.error(f"Error applying repaired patch: {str(e)}")
